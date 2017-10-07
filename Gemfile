@@ -21,6 +21,15 @@ gem 'materialize-sass'
 gem 'material_icons'
 gem 'jquery-rails'
 gem 'devise'
+gem 'omniauth-facebook'
+gem 'omniauth-google-oauth2'
+
+gem 'redis', '~> 3.3', '>= 3.3.3'
+gem 'sidekiq', '~> 4.2.7'
+gem 'sidekiq-cron', '~> 0.6.3'
+
+gem 'active_model_serializers', '~> 0.10.0'
+gem 'oj'
 
 group :development, :test do
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
