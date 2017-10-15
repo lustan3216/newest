@@ -13,12 +13,14 @@ class Facebook
 
     # Case 2: Find existing user by email
     existing_user = User.find_by_email( auth.info.email )
-    return existing_user = 'user_conflict' if existing_user
-    # existing_user.fb_uid = auth.uid
-    # existing_user.fb_token = auth.credentials.token
-    # existing_user.fb_raw_data = auth
-    # existing_user.save!
-    # return existing_user
+    # return existing_user = 'user_conflict'
+    if existing_user
+      existing_user.fb_uid = auth.uid
+      existing_user.fb_token = auth.credentials.token
+      existing_user.fb_raw_data = auth
+      existing_user.save!
+      return existing_user
+    end
 
     # Case 3: Create new password
     user = User.new
