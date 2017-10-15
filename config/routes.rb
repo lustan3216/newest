@@ -9,5 +9,9 @@ Rails.application.routes.draw do
                                     registrations: 'users/registrations'}
 
   root to: 'websites#index'
-  resources :websites
+  resources :websites do
+    scope module: :websites do
+      resource :current_episode
+    end
+  end
 end
