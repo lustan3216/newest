@@ -8,6 +8,7 @@
     "moment": "^2.19.1",
     "scrollreveal": "^3.3.6",
     "vue": "^2.4.4",
+    "vue-axios": "^2.0.2",
     "vue-loader": "^13.0.5",
     "vue-template-compiler": "^2.4.4",
     "webpack-merge": "^4.1.0"
