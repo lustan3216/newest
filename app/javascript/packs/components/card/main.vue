@@ -10,7 +10,7 @@
            :href="website.url">
           {{ website.title }}
         </a>
-        <span class="card-title">{{ website.keyword }}</span>
+        <span class="card-title">{{ website.current_episode }}</span>
         <p>{{ website.crawled_at | fromNow }}</p>
         <p>{{ website.read_at }}</p>
         <div>
@@ -52,11 +52,14 @@
             episode
           })
           .then(({data: {messages}}) => {
-            if (messages) return Materialize.toast(messages, 4000)
-            this.website.keyword = +e.target.innerText
-            $(this.$el).find('.result_list a').each((index, link) => {
-              if (+link.innerText <= episode) link.parentNode.remove()
-            })
+            if (messages) {
+              Materialize.toast(messages, 4000)
+            }else {
+              this.website.current_episode = +e.target.innerText
+              this.$el.querySelectorAll('.result_list a').forEach(link => {
+                if (+link.innerText <= episode) link.parentNode.remove()
+              })
+            }
           })
       }
     }

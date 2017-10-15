@@ -4,9 +4,7 @@ class Websites::CurrentEpisodesController < ApplicationController
 
   def update
     @website.assign_attributes(current_episode: params[:episode])
-    if @website.save
-      render json: serialize_data(@website, WebsiteSerializer)
-    else
+    unless @website.save
       render json: { messages: @website.errors.full_messages.join(', ') }
     end
   end

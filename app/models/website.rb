@@ -5,7 +5,7 @@ class Website < ApplicationRecord
   validates_presence_of :keyword, :url
   validates :url, uniqueness: { scope: :user_id }, on: :create
 
-  before_save :assign_current_episode, on: :create
+  before_create :assign_current_episode
   after_commit :crawl_data, on: :create
 
   def result
