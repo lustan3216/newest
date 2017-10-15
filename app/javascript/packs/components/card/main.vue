@@ -17,9 +17,9 @@
           <ul class="result_list">
             <li v-for="result in website.sorted_result">
               <a target="_blank"
+                 @click="setCurrentEpisode"
                  :href="Object.values(result)[0]"
-                 @click="setCurrentEpisode($event)"
-                 :data-id="Object.keys(result)[0]">
+                 :data-episode="Object.keys(result)[0]">
                 {{ Object.keys(result)[0] }}
               </a>
             </li>
@@ -32,7 +32,6 @@
 
 <script>
   import timeMixin from '../../mixins/time'
-  import _         from 'lodash'
 
   export default {
     props: ['website'],
@@ -45,19 +44,19 @@
             this.$parent.websites = this.$parent.websites.filter(o => o.id !== id)
           })
       },
-      setCurrentEpisode(event){
-        event.preventDefault()
-        const episode = event.target.dataset.id
-        const id      = $(event.target).parents('.website-card').data('id')
+      setCurrentEpisode(e){
+        const id      = $(e.target).parents('.website-card').data('id')
+        const episode = +e.target.dataset.episode
 
         this.axios.put(`/websites/${id}/current_episode`, {
             episode
           })
           .then(({data: {messages}}) => {
             if (messages) return Materialize.toast(messages, 4000)
-
-            this.$parent.fetch_websites()
-            Materialize.toast('新增成功', 4000)
+            this.website.keyword = +e.target.innerText
+            $(this.$el).find('.result_list a').each((index, link) => {
+              if (+link.innerText <= episode) link.parentNode.remove()
+            })
           })
       }
     }
