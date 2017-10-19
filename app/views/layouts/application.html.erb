@@ -10,11 +10,12 @@
 </head>
 
 <body>
-<%= render 'share/navbar' %>
 
-<div class="container" id="app">
+<div class="container-fluid" id="app">
   <%= yield %>
 </div>
+
 <%= javascript_pack_tag 'application' %>
+<%= stylesheet_pack_tag 'application' %>
 </body>
 </html>

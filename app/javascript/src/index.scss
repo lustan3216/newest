@@ -1,0 +1,9 @@
+#websites{
+  margin-top: 10px;
+  height: calc(100vh - 20px);
+  overflow-x: hidden;
+  overflow-y: scroll;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
