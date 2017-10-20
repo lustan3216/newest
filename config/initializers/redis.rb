@@ -14,7 +14,6 @@ $namespaced_redis = Redis::Namespace.new(redis_config[:namespace], redis: $redis
 # To clear out the db before each test and development
 begin
   $redis.flushdb if Rails.env == 'test'
-  $redis.flushdb if Rails.env == 'development'
 rescue Exception => e
   p '-' * 20
   p "Error trying with $redis.flushdb: #{e.message}"
