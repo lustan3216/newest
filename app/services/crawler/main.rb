@@ -2,7 +2,7 @@ require 'open-uri'
 
 class Crawler::Main
 
-  attr_reader :website, :url, :host, :redis
+  attr_reader :website, :url, :host
   attr_accessor :episode, :result, :dom
 
   def initialize(website)
@@ -12,7 +12,6 @@ class Crawler::Main
     @host    = deal_host
     @result  = []
     @dom     = Nokogiri::HTML(open(url))
-    @redis   = Redis.new
 
     redis_set_title
   end
@@ -22,8 +21,8 @@ class Crawler::Main
   # end
   #
   # def fetch_data
-  #   keys = redis.keys("#{url}*")
-  #   keys.each { |episode| save_result(episode, redis.get(key)) }
+  #   keys = $redis.keys("#{url}*")
+  #   keys.each { |episode| save_result(episode, $redis.get(key)) }
   #   result
   # end
 
@@ -56,15 +55,15 @@ class Crawler::Main
   end
 
   def redis_get_end_url
-    redis.get("#{url}:episode:#{episode}")
+    $redis.get("#{url}:episode:#{episode}")
   end
 
   def redis_set_end_url(link)
-    redis.set("#{url}:episode:#{episode}", link)
+    $redis.set("#{url}:episode:#{episode}", link)
   end
 
   def redis_set_title
-    redis.set("#{url}:title", dom.search('title').text)
+    $redis.set("#{url}:title", dom.search('title').text)
   end
 
   def save_result(episode, link)

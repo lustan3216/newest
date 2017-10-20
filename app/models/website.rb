@@ -9,7 +9,7 @@ class Website < ApplicationRecord
   after_commit :crawl_data, on: :create
 
   def result
-    keys = redis.keys("#{url}:episode:*")
+    keys = $redis.keys("#{url}:episode:*")
     reduce_keys(keys)
   end
 
@@ -37,7 +37,7 @@ class Website < ApplicationRecord
   end
 
   def title
-    redis.get("#{url}:title")
+    $redis.get("#{url}:title")
   end
 
   private

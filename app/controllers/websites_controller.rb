@@ -1,7 +1,7 @@
 class WebsitesController < ApplicationController
 
   def index
-    @websites = current_user.websites.order('created_at desc')
+    @websites = current_user&.websites&.order('created_at desc')
 
     respond_to do |format|
       format.html
