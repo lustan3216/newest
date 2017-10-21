@@ -12,7 +12,7 @@ class Website < ApplicationRecord
     Rdb::Website.new(url)
   end
 
-  def main_url_title
+  def title
     rdb.main_url_title
   end
 
