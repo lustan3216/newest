@@ -1,5 +1,5 @@
 # Newest (developing)
-=============
+
 ##Do you have same trouble about the comic, album author always late for publising?
 ##Lead to check every days, every hours, every mins and every seconds by manual.
 ##Enter the index url(only need one) and a keyword what you want to follow, then Newest will update following for you in the future!
