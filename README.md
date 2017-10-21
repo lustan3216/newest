@@ -1,24 +1,19 @@
-# README
+# Newest (developing)
+=============
+##Do you have same trouble about the comic, album author always late for publising?
+##Lead to check every days, every hours, every mins and every seconds by manual.
+##Enter the index url(only need one) and a keyword what you want to follow, then Newest will update following for you in the future!
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
 
-Things you may want to cover:
+Base version 
+-------------
+tracking keyword by episodes 
+* Comic
+* Album
+* Korean drama
 
-* Ruby version
-
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+Advance version
+-------------
+tracking anything without episodes
+* news
+* some websites newest article
