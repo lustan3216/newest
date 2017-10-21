@@ -135,6 +135,8 @@ GEM
     orm_adapter (0.5.0)
     puma (3.10.0)
     rack (2.0.3)
+    rack-mini-profiler (0.10.5)
+      rack (>= 1.2.0)
     rack-protection (2.0.0)
       rack
     rack-proxy (0.6.2)
@@ -247,6 +249,7 @@ DEPENDENCIES
   omniauth-facebook
   omniauth-google-oauth2
   puma (~> 3.7)
+  rack-mini-profiler
   rails (~> 5.1.2)
   redis (~> 3.3, >= 3.3.3)
   sass-rails (~> 5.0)
@@ -260,4 +263,4 @@ DEPENDENCIES
   webpacker
 
 BUNDLED WITH
-   1.16.0.pre.2
+   1.16.0.pre.3
