@@ -1,5 +1,5 @@
 import ScrollReveal from 'scrollreveal'
-import Card         from '../components/card/main.vue'
+import Card         from '../components/card/body.vue'
 import CreateCard   from '../components/card/create.vue'
 
 export default{
