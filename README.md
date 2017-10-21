@@ -16,3 +16,7 @@ Advance version
 tracking anything without episodes
 * news
 * some websites newest article
+
+Notice
+-------------
+Newest wiil email you, or send Facebook message if what you followed has updated.
