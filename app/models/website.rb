@@ -8,46 +8,31 @@ class Website < ApplicationRecord
   before_create :assign_current_episode
   after_commit :crawl_data, on: :create
 
-  def result
-    keys = $redis.keys("#{url}:episode:*")
-    reduce_keys(keys)
+  def rdb
+    Rdb::Website.new(url)
   end
 
-  def sorted_result
-    result.sort_by { |x| x.keys.first.to_s.to_i }
+  def main_url_title
+    rdb.main_url_title
   end
 
-  def reduce_keys(keys)
-    keys.reduce([]) do |all, key|
-      parsed_key = parse_redis_episode(key)
-      if current_episode < parsed_key.to_i
-        all << Hash[parsed_key, redis.get(key)]
-      else
-        all
-      end
-    end
+  def sub_urls
+    rdb.sub_urls
   end
 
-  def parse_redis_episode(key)
-    key.match(/.+:episode:(\d+)/)[1]
-  end
-
-  def parse_episode
-    keyword.match(/(\d*)/)[1]
-  end
-
-  def title
-    $redis.get("#{url}:title")
+  def sub_urls_title
+    rdb.sub_urls_title
   end
 
   private
 
   def assign_current_episode
-    assign_attributes(current_episode: parse_episode)
+    episode = keyword.match(/(\d+)$/)[1]
+    assign_attributes(current_episode: episode)
   end
 
   def crawl_data
-    Crawler::Main.new(self).update
+    Crawler::Website.new(self).update
     update_column(:crawled_at, Time.current)
   end
 
