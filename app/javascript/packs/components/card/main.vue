@@ -1,6 +1,6 @@
 <template>
-  <div class="col s12 m4 website-card" :data-id="website.id" :key="website.id">
-    <div class="card indigo lighten-5">
+  <div class="website-card" :data-id="website.id" :key="website.id">
+    <div class="card">
       <div class="card-action right-align">
         <a @click="deleteWebsite">DELETE</a>
       </div>
