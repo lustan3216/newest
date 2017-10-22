@@ -5,9 +5,7 @@ class WebsitesController < ApplicationController
 
     respond_to do |format|
       format.html
-      format.json do
-        render json: serialize_data(websites, WebsiteSerializer)
-      end
+      format.json { render json: serialize_data(websites, WebsiteSerializer) }
     end
   end
 
