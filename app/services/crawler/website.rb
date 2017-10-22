@@ -9,7 +9,7 @@ class Crawler::Website
     @website         = website
     @main_url        = website.url
     @host            = parse_host
-    @dom             = Nokogiri::HTML(open(url))
+    @dom             = Nokogiri::HTML(open(main_url))
     @rdb             = Rdb::Website.new(main_url)
     @current_episode = website.current_episode
 
@@ -54,7 +54,7 @@ class Crawler::Website
   end
 
   def parse_host
-    "#{URI(url).scheme}://#{URI(url).host}"
+    "#{URI(main_url).scheme}://#{URI(main_url).host}"
   end
 
 end
