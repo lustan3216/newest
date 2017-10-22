@@ -17,11 +17,15 @@ class Website < ApplicationRecord
   end
 
   def sub_urls
-    rdb.sub_urls
+    not_yet_seen(rdb.sub_urls)
   end
 
   def sub_urls_title
-    rdb.sub_urls_title
+    not_yet_seen(rdb.sub_urls_title)
+  end
+
+  def not_yet_seen(hash)
+    hash.select { |k, v| k.to_s.to_i > current_episode }
   end
 
   private
