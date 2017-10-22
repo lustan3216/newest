@@ -15,12 +15,12 @@
         <p>{{ website.read_at }}</p>
         <div>
           <ul class="result_list">
-            <li v-for="result in website.sorted_result">
+            <li v-for="result in Object.keys(website.sub_urls_title)">
               <a target="_blank"
                  @click="setCurrentEpisode"
-                 :href="Object.values(result)[0]"
-                 :data-episode="Object.keys(result)[0]">
-                {{ Object.keys(result)[0] }}
+                 :href="website.sub_urls[result]"
+                 :data-episode="result">
+                {{ website.sub_urls_title[result] }}
               </a>
             </li>
           </ul>
