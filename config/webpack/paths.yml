@@ -6,7 +6,7 @@ default: &default
   output: public
   manifest: manifest.json
   node_modules: node_modules
-  source: app/javascript
+  source: app/frontend
   extensions:
     - .coffee
     - .js
