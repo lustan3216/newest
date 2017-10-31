@@ -17,8 +17,6 @@ gem 'coffee-rails', '~> 4.2'
 gem 'jbuilder', '~> 2.5'
 
 gem 'nokogiri'
-gem 'materialize-sass'
-gem 'material_icons'
 gem 'jquery-rails'
 gem 'devise'
 gem 'omniauth-facebook'
