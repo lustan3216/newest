@@ -8,6 +8,8 @@ class Website < ApplicationRecord
   before_create :assign_current_episode
   after_commit :crawl_data, on: :create
 
+  enum pattern: { specific: 0, continuousness: 1 }
+
   def rdb
     Rdb::Website.new(url)
   end

@@ -11,7 +11,10 @@ Rails.application.routes.draw do
   root to: 'websites#index'
   resources :websites do
     scope module: :websites do
-      resource :current_episode
+      collection do
+        resources :patterns, only: [:index]
+      end
+      resource :current_episode, only: [:update]
     end
   end
 end
