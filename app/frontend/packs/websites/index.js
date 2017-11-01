@@ -14,9 +14,11 @@ export default{
         window.sr = ScrollReveal({
             opacity: 0,
             reset: true,
+            origin: 'top',
             container: '#websites',
             duration: 2000,
             scale: 0.9,
+            delay: 30,
             easing: 'cubic-bezier(0.6, 0.2, 0.1, 1)',
         });
     },
