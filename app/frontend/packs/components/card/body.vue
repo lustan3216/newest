@@ -46,4 +46,7 @@
     display: inline-block;
     margin: 5px;
   }
+  .website-card{
+    margin-bottom: 10px;
+  }
 </style>
