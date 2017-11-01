@@ -43,6 +43,8 @@
 
 
 <script>
+    import { mapActions } from 'vuex';
+    
     export default {
         props: ['websites'],
         data(){
@@ -70,6 +72,9 @@
             this.fetch_pattern()
         },
         methods: {
+            ...mapActions([
+                'addWebsite'
+                ]),
             fetch_pattern(){
                 this.axios.get('websites/patterns')
                     .then(({data: { data }}) => this.patternOptions = data)
@@ -81,14 +86,15 @@
                             website: this.formValidate
                             })
                             .then(({data, data: { messages }}) => {
-                                if (messages) return this.$Message.error(messages)
-
-                                this.websites.unshift(data)
-                                this.$Message.success('新增成功')
+                                if (messages) {
+                                    this.$Message.error(messages)
+                                }else{
+                                    this.addWebsite(data)
+                                    this.$Message.success('新增成功')
+                                }
                             })
-                            .catch(() => {
-                                this.$Message.error('新增失敗')
-                            });
+                            .catch(() => this.$Message.error('新增失敗'));
+                        
                     } else {
                         this.$Message.error('表单验证失败!');
                     }

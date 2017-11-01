@@ -24,17 +24,23 @@
 <script>
     import timeMixin from '../../mixins/time'
     import episodes  from './episodes.vue'
+    import { mapActions } from 'vuex';
 
     export default {
         props: ['website'],
         mixins: [timeMixin],
         components: {episodes},
         methods: {
+            ...mapActions({
+                deleteWebsiteAction: 'deleteWebsite'
+            }),
             deleteWebsite(e){
-                const id = $(e.target).parents('.website-card').data('id')
-                this.axios.delete(`/websites/${+id}`)
+                const $card = $(e.target).parents('.website-card')
+                const id    = +$card.data('id')
+                this.axios.delete(`/websites/${id}`)
                     .then(() => {
-                        this.$parent.websites = this.$parent.websites.filter(o => o.id !== id)
+                        this.deleteWebsiteAction($card[0])
+                        this.$Message.success('刪除成功')
                     })
             }
         }
