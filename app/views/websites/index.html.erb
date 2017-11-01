@@ -1,18 +1,18 @@
-<div class="row">
-  <div class="col s7">
+<Row class="row" :gutter="16">
+  <i-col span="14">
     <%= link_to 'LOGOUT', destroy_user_session_path, method: :delete %>
     <div class="card">
       <div class="card-content">
         <create-card :websites="websites"></create-card>
       </div>
     </div>
-  </div>
+  </i-col>
 
-  <div class="col s5">
+  <i-col span="10">
     <div id="websites">
       <template v-for="website in websites">
         <card :website="website"></card>
       </template>
     </div>
-  </div>
-</div>
+  </i-col>
+</Row>
