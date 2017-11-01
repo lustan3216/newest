@@ -1,30 +1,41 @@
 
 <template>
   <Row>
-    <span class="card-title">Create</span>
-    <Form id="new_website" action="/websites" accept-charset="UTF-8" method="post" class="new_website">
+    <Form id="new_website" action="/websites"
+          accept-charset="UTF-8"
+          method="post"
+          class="new_website"
+          ref="formValidate"
+          :model="formValidate"
+          :rules="ruleValidate"
+          :label-width="100">
+      
       <input name="utf8" type="hidden" value="✓">
+  
+      <h1 class="card-title">Create</h1>
       
-      
-      <FormItem label="URL">
-        <Input type="text" name="website[url]" id="website_url" required/>
-      </FormItem>
-      
-      <FormItem label="Keyword">
-        <Input type="text" name="website[keyword]" id="website_keyword" required/>
-      </FormItem>
-      
-      <Form-item label="城市" prop="city">
-        <Select v-model="type_selected" placeholder="请选择所在地">
-          <Option value="beijing">北京市</Option>
-          <Option value="shanghai">上海市</Option>
-          <Option value="shenzhen">深圳市</Option>
-        </Select>
-      </Form-item>
-      
-      <FormItem>
-        <Button type="primary" @click="submit($event)" long>提交</Button>
-      </FormItem>
+      <Row>
+        <FormItem label="URL" prop="url">
+          <Input v-model="formValidate.url"/>
+        </FormItem>
+        
+        <FormItem label="Keyword" prop="keyword">
+          <Input v-model="formValidate.keyword"/>
+        </FormItem>
+        
+        <Form-item label="Pattern" prop="pattern">
+          <Select v-model="formValidate.pattern" placeholder="Select pattern">
+            <Option v-for="(value, key) in patternOptions"
+                    :value="value"
+                    :key="value">{{ key }}
+            </Option>
+          </Select>
+        </Form-item>
+        
+        <FormItem>
+          <Button type="primary" @click="handleSubmit('formValidate')" long>提交</Button>
+        </FormItem>
+      </Row>
     
     </Form>
   </Row>
@@ -36,23 +47,52 @@
         props: ['websites'],
         data(){
             return {
-                type_selected: null,
+                formValidate: {
+                    url: '',
+                    pattern: '',
+                    keyword: '',
+                },
+                patternOptions: null,
+                ruleValidate: {
+                    url: [
+                        { required: true, message: 'Please enter url', trigger: 'blur' }
+                    ],
+                    pattern: [
+                        { required: true, message: 'Please select a pattern', trigger: 'blur', type:'number' }
+                    ],
+                    keyword: [
+                        { required: true, message: 'Please enter keyword', trigger: 'blur' }
+                    ]
+                }
             }
         },
+        mounted(){
+            this.fetch_pattern()
+        },
         methods: {
-            submit(event){
-                event.preventDefault();
-                this.axios.post(`/websites?${$("#new_website").serialize()}`)
-                    .then(({data, data: { messages }}) => {
+            fetch_pattern(){
+                this.axios.get('websites/patterns')
+                    .then(({data: { data }}) => this.patternOptions = data)
+            },
+            handleSubmit(name){
+                this.$refs[name].validate((valid) => {
+                    if (valid) {
+                        this.axios.post(`/websites`, {
+                            website: this.formValidate
+                            })
+                            .then(({data, data: { messages }}) => {
+                                if (messages) return this.$Message.error(messages)
 
-                        if (messages) return this.$Message.error(message)
-
-                        this.websites.unshift(data)
-                        this.$Message.success('新增成功')
-                    })
-                    .catch(() => {
-                        this.$Message.error('新增失敗')
-                    });
+                                this.websites.unshift(data)
+                                this.$Message.success('新增成功')
+                            })
+                            .catch(() => {
+                                this.$Message.error('新增失敗')
+                            });
+                    } else {
+                        this.$Message.error('表单验证失败!');
+                    }
+                })
             }
         }
     }
