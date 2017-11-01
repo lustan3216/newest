@@ -12,5 +12,11 @@ module.exports = merge(sharedConfig, {
 
   output: {
     pathinfo: true
-  }
+  },
+
+    devServer: {
+        headers: {
+            'Access-Control-Allow-Origin': '*'
+        }
+    }
 })
