@@ -48,5 +48,6 @@
   }
   .website-card{
     margin-bottom: 10px;
+    visibility: hidden;
   }
 </style>

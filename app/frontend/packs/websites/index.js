@@ -1,35 +1,37 @@
-import ScrollReveal from 'scrollreveal'
-import Card         from '../components/card/body.vue'
-import CreateCard   from '../components/card/create.vue'
-
+import ScrollReveal   from 'scrollreveal'
+import Card           from '../components/card/body.vue'
+import CreateCard     from '../components/card/create.vue'
+import { mapActions, mapGetters } from 'vuex';
+//
 export default{
     components: {
         Card, CreateCard
     },
-    data: {
-        websites: []
-    },
     created() {
+        this.initWebsites()
+    },
+    mounted(){
         window.sr = ScrollReveal({
-            duration: 1000,
-            mobile: true
+            opacity: 0,
+            reset: true,
+            container: '#websites',
+            duration: 2000,
+            scale: 0.9,
+            easing: 'cubic-bezier(0.6, 0.2, 0.1, 1)',
         });
     },
-    mounted() {
-        this.fetch_websites()
+    computed: {
+        ...mapGetters(['websites'])
     },
     methods: {
-        fetch_websites(){
-            this.axios.get('/websites.json')
-                .then((response) => {
-                    this.websites = response.data;
-                })
-        }
+        ...mapActions([
+            'initWebsites'
+        ])
     },
     watch:{
-        websites:function(){
-            this.$nextTick(() => {
-                sr.reveal('.website-card',100);
+        websites(){
+            this.$nextTick(function(){
+                sr.reveal('.website-card', 100)
             })
         }
     }
