@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171031232837) do
+ActiveRecord::Schema.define(version: 20171101033033) do
 
   create_table "users", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string "email", default: "", null: false
@@ -39,6 +39,7 @@ ActiveRecord::Schema.define(version: 20171031232837) do
     t.datetime "updated_at", null: false
     t.integer "current_episode"
     t.integer "pattern"
+    t.string "keyword_url"
     t.index ["user_id"], name: "index_websites_on_user_id"
   end
 

@@ -2,16 +2,17 @@ class Website < ApplicationRecord
 
   belongs_to :user
 
-  validates_presence_of :keyword, :url
+  validates_presence_of :keyword, :url, :keyword_url
   validates :url, uniqueness: { scope: :user_id }, on: :create
 
+  before_save :strip_column
   before_create :assign_current_episode
   after_commit :crawl_data, on: :create
 
   enum pattern: { specific: 0, continuousness: 1 }
 
   def rdb
-    Rdb::Website.new(url)
+    Rdb::Website.new(self)
   end
 
   def title
@@ -27,18 +28,24 @@ class Website < ApplicationRecord
   end
 
   def not_yet_seen(hash)
-    hash.select { |k, v| k.to_s.to_i > current_episode }
+    hash.select { |k, v| k.to_s.to_i >= current_episode }
   end
 
   private
 
   def assign_current_episode
-    episode = keyword.match(/(\d+)$/)[1]
-    assign_attributes(current_episode: episode)
+    episode = keyword.match(/(\d+)/)[-1]
+    assign_attributes(current_episode: episode.strip)
+  end
+
+  def strip_column
+    assign_attributes(url: url.strip,
+                      keyword: keyword.strip,
+                      keyword_url: keyword_url.strip)
   end
 
   def crawl_data
-    Crawler::Website.new(self).update
+    Crawler::Continuousness.new(self).update
     update_column(:crawled_at, Time.current)
   end
 
