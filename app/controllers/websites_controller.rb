@@ -16,7 +16,13 @@ class WebsitesController < ApplicationController
       render json: { messages: 'already have' } and return
     end
 
-    if website_params[:keyword_url].blank?
+    begin
+      open(website.main_url, OPENURL_SETTING)
+    rescue
+      render json: { messages: 'this website is blocked' } and return
+    end
+
+    if website_params[:keyword_url].blank? && website.continuousness?
       keyword_urls = Crawler::Website.new(website).keyword_urls
 
       case keyword_urls.to_a.size
