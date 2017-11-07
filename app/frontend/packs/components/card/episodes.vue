@@ -25,7 +25,7 @@
         },
         methods:{
             setCurrentEpisode(e, episode){
-                e.preventDefault()
+//                e.preventDefault()
                 const website_id = $(e.target).parents('.website-card').data('id')
 
                 this.axios.put(`/websites/${website_id}/current_episode`, {
@@ -35,7 +35,7 @@
                         if (messages) {
                             Materialize.toast(messages, 4000)
                         }else {
-                            this.episodes = this.episodes.filter(e => +e > episode)
+                            this.episodes = this.episodes.filter(e => +e >= episode)
                         }
                     })
             }
