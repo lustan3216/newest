@@ -2,7 +2,7 @@ import ScrollReveal   from 'scrollreveal'
 import Card           from '../components/card/body.vue'
 import CreateCard     from '../components/card/create.vue'
 import { mapActions, mapGetters } from 'vuex';
-//
+
 export default{
     components: {
         Card, CreateCard
