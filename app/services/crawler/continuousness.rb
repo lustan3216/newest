@@ -27,11 +27,15 @@ class Crawler::Continuousness
   end
 
   def update
+    episode_list = []
     link_nodes.each do |node|
       episode = node.text.match(/(\d+)/)[-1]
+      episode_list << episode
       rdb.add_sub_url(Hash[episode, host + node[:href].to_s])
       rdb.add_sub_url_title(Hash[episode, node.text])
     end
+
+    rdb.sub_url_newest = episode_list.max
   end
 
   private
