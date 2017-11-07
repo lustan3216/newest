@@ -1,29 +1,18 @@
-require 'open-uri'
-
 class Crawler::Continuousness
 
-  attr_reader :website, :main_url, :dom, :rdb, :host, :pattern,
+  attr_reader :website, :main_url, :dom, :rdb, :host,
               :keyword, :keyword_url
-
-  attr_accessor :current_episode
 
   def initialize(website)
     @website     = website
     @main_url    = website.url
-    @pattern     = website.pattern
     @keyword     = website.keyword
     @keyword_url = website.keyword_url
     @host        = parse_host
-    @dom         = Nokogiri::HTML(open(main_url))
+    @dom         = Nokogiri::HTML(open(main_url, OPENURL_SETTING))
     @rdb         = Rdb::Website.new(website)
 
     store_main_url_title
-  end
-
-  def keyword_urls
-    dom.xpath("//a[contains(text(), '#{keyword}')]").map do |x|
-      { url: host + x.attr('href').to_s, text: x.text }
-    end
   end
 
   def update
@@ -35,7 +24,20 @@ class Crawler::Continuousness
       rdb.add_sub_url_title(Hash[episode, node.text])
     end
 
-    rdb.sub_url_newest = episode_list.max
+    if rdb.sub_url_newest != episode_list.max
+      rdb.sub_url_newest = episode_list.max
+      notify
+    end
+  end
+
+  def notify
+
+  end
+
+  def keyword_urls
+    dom.xpath("//a[contains(text(), '#{keyword}')]").map do |x|
+      { url: host + x.attr('href').to_s, text: x.text }
+    end
   end
 
   private

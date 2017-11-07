@@ -1,6 +1,6 @@
 class Rdb::Website
 
-  attr_reader :main_url, :redis, :keyword
+  attr_reader :main_url, :redis, :keyword, :pattern
 
   def initialize(website)
     @redis    = $redis
@@ -28,7 +28,7 @@ class Rdb::Website
   end
 
   def sub_url_newest
-    redis.set("#{sub_url_key}-newest")
+    redis.get("#{sub_url_key}-newest")
   end
 
   def sub_url_newest=(value)
