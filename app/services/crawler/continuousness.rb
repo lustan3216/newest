@@ -29,7 +29,7 @@ class Crawler::Continuousness
   def update
     episode_list = []
     link_nodes.each do |node|
-      episode = node.text.match(/(\d+)/)[-1]
+      episode = fetch_episode(node)
       episode_list << episode
       rdb.add_sub_url(Hash[episode, host + node[:href].to_s])
       rdb.add_sub_url_title(Hash[episode, node.text])
@@ -39,6 +39,10 @@ class Crawler::Continuousness
   end
 
   private
+
+  def fetch_episode(node)
+    node.text.match(/(\d+)/)[-1]
+  end
 
   def link_nodes
     comparison = URI(main_url).path.match(/(\/.+)\/.+/).to_a.second
