@@ -35,6 +35,14 @@ class Rdb::Website
     redis.set("#{sub_url_key}-newest", value)
   end
 
+  def sub_url_dom
+    redis.get("#{sub_url_key}-dom")
+  end
+
+  def sub_url_dom=(value)
+    redis.set("#{sub_url_key}-dom", value)
+  end
+
   def sub_url(key)
     redis.hget(sub_url_key, key)
   end

@@ -2,7 +2,8 @@ class Website < ApplicationRecord
 
   belongs_to :user
 
-  validates_presence_of :keyword, :url, :keyword_url
+  validates_presence_of :keyword, :url
+  validates_presence_of :keyword_url, if: -> { continuousness? }
   validates :url, uniqueness: { scope: :user_id }, on: :create
 
   before_save :strip_column
@@ -34,18 +35,24 @@ class Website < ApplicationRecord
   private
 
   def assign_current_episode
-    episode = keyword.match(/(\d+)/)[-1]
-    assign_attributes(current_episode: episode.strip)
+    if continuousness?
+      episode = keyword.match(/(\d+)/)[-1]
+      assign_attributes(current_episode: episode.strip)
+    end
   end
 
   def strip_column
-    assign_attributes(url: url.strip,
-                      keyword: keyword.strip,
-                      keyword_url: keyword_url.strip)
+    assign_attributes(url: url&.strip,
+                      keyword: keyword&.strip,
+                      keyword_url: keyword_url&.strip)
   end
 
   def crawl_data
-    Crawler::Continuousness.new(self).update
+    if continuousness?
+      Crawler::Continuousness.new(self).update
+    elsif specific?
+      Crawler::Specific.new(self).save
+    end
     update_column(:crawled_at, Time.current)
   end
 
